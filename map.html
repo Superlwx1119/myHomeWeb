@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<style type="text/css">
+	body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+	</style>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=oPB8D7eiIsnkbB1Dtfj9kI6UIrmxRM0c"></script>
+	<script type="text/javascript" src="http://developer.baidu.com/map/jsdemo/demo/convertor.js"></script>
+	<title>地图展示</title>
+</head>
+<body>
+	<div id="allmap"></div>
+</body>
+</html>
+<script type="text/javascript">
+
+	let BMap = window.BMap;
+	let geolocation = new BMap.Geolocation();
+	let latitude;
+	let longitude;
+	geolocation.enableSDKLocation(); //允许SDK辅助
+	geolocation.getCurrentPosition(function (position) {
+		if(this.getStatus() == 0){
+			console.log(position);
+			longitude=position.longitude;
+			latitude=position.latitude;
+			console.log(position.address.province);//甘肃省
+			console.log(position.address.city);//兰州市
+			// 百度地图API功能
+			var map = new BMap.Map("allmap");    // 创建Map实例
+			map.centerAndZoom(new BMap.Point(longitude,latitude), 11);  // 初始化地图,设置中心点坐标和地图级别
+			//添加地图类型控件
+			map.addControl(new BMap.MapTypeControl({
+				mapTypes:[
+					BMAP_NORMAL_MAP,
+					BMAP_HYBRID_MAP
+				]}));	  
+			map.setCurrentCity("北京");          // 设置地图显示的城市 此项是必须设置的
+			map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
+		}
+	})
+
+	
+</script>
